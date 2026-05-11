@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
+import LoginModal from './LoginModal'; // <-- Import the new modal
 
 const Navbar = ({ transparent = true }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false); // <-- Add State for Modal
   const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
@@ -20,7 +22,16 @@ const Navbar = ({ transparent = true }) => {
       : 'linear-gradient(180deg, #171717 0%, rgba(125, 125, 125, 0) 100%)'
     : '#FFFFFF';
 
-  const menuIconFilter = transparent || scrolled ? 'none' : 'invert(1)';
+  // Handle Menu Item Clicks
+  const handleMenuClick = (e, label) => {
+    if (label === 'LOGIN') {
+      e.preventDefault(); // Prevent default link navigation
+      setIsMenuOpen(false); // Close the green overlay menu
+      setIsLoginModalOpen(true); // Open the login modal
+    } else {
+      setIsMenuOpen(false); // Just close the menu for other links
+    }
+  };
 
   return (
     <>
@@ -55,7 +66,7 @@ const Navbar = ({ transparent = true }) => {
         <div
           id="menu-toggle"
           style={{ display: 'flex', alignItems: 'center', cursor: 'pointer', zIndex: 200 }}
-          onClick={() => setIsMenuOpen(!isMenuOpen)}
+          onClick={() => setIsMenuOpen(true)}
         >
           {/* Hamburger icon – three bars */}
           <svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -66,95 +77,106 @@ const Navbar = ({ transparent = true }) => {
         </div>
       </nav>
 
+      {/* FULL SCREEN OVERLAY MENU */}
       <AnimatePresence>
         {isMenuOpen && (
-          <>
-            {/* Backdrop */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              onClick={() => setIsMenuOpen(false)}
-              style={{
-                position: 'fixed',
-                inset: 0,
-                backgroundColor: 'rgba(0,0,0,0.6)',
-                zIndex: 600,
-              }}
-            />
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            style={{
+              position: 'fixed',
+              inset: 0,
+              width: '100vw',
+              height: '100vh',
+              backgroundColor: 'rgba(105, 190, 40, 0.85)',
+              zIndex: 9999,
+              display: 'flex',
+              flexDirection: 'column',
+            }}
+          >
+            {/* Overlay Header */}
+            <div style={{
+              display: 'flex',
+              justifyContent: 'space-between',
+              alignItems: 'center',
+              height: '80px',
+              padding: '0 100px',
+            }}>
+              <img src="/assets/logo.svg" alt="Kawasaki" style={{ height: '40px' }} />
 
-            {/* Side Drawer */}
-            <motion.div
-              id="side-drawer"
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'tween', ease: 'easeInOut', duration: 0.28 }}
-              style={{
-                position: 'fixed',
-                top: 0,
-                right: 0,
-                width: '360px',
-                maxWidth: '100vw',
-                height: '100vh',
-                backgroundColor: '#111111',
-                boxShadow: '-4px 0 24px rgba(0,0,0,0.5)',
-                zIndex: 700,
-                display: 'flex',
-                flexDirection: 'column',
-                padding: '40px 40px',
-              }}
-            >
-              {/* Close */}
               <div
-                style={{ alignSelf: 'flex-end', cursor: 'pointer', marginBottom: '40px' }}
+                style={{ cursor: 'pointer', padding: '10px' }}
                 onClick={() => setIsMenuOpen(false)}
               >
                 <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
                   <path d="M18 6L6 18M6 6L18 18" stroke="#FFFFFF" strokeWidth="2" strokeLinecap="round" />
                 </svg>
               </div>
+            </div>
 
-              <nav style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
-                {[
-                  { label: 'Home', to: '/' },
-                  { label: 'KLX110R', to: '/klx110r' },
-                  { label: 'Ninja 650', to: '#' },
-                  { label: 'Accessories', to: '#' },
-                  { label: 'Contact Us', to: '#' },
-                ].map((item) => (
-                  <Link
-                    key={item.label}
-                    to={item.to}
-                    onClick={() => setIsMenuOpen(false)}
-                    style={{
-                      color: '#FFFFFF',
-                      fontSize: '28px',
-                      fontFamily: 'var(--font-heading)',
-                      fontWeight: 600,
-                      textTransform: 'uppercase',
-                      padding: '12px 0',
-                      borderBottom: '1px solid rgba(255,255,255,0.08)',
-                      letterSpacing: '0.04em',
-                      transition: 'color 0.2s ease',
-                    }}
-                    onMouseEnter={(e) => e.target.style.color = '#69BE28'}
-                    onMouseLeave={(e) => e.target.style.color = '#FFFFFF'}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </nav>
+            {/* Centered Menu Links */}
+            <nav style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              justifyContent: 'center',
+              flex: 1,
+              gap: '40px',
+              paddingBottom: '80px',
+            }}>
+              {[
+                { label: 'LOGIN', to: '#' },
+                { label: 'CONTACT US', to: '/contact' },
+                { label: 'PRIVACY POLICY', to: '/privacy-policy' },
+                { label: 'TERMS AND CONDITIONS', to: '/terms-and-conditions' },
+              ].map((item) => (
+                <Link
+                  key={item.label}
+                  to={item.to}
+                  onClick={(e) => handleMenuClick(e, item.label)}
+                  style={{
+                    fontSize: 'clamp(20px, 3vw, 35px)',
+                    fontFamily: '"Impact", "Arial Black", sans-serif',
+                    fontWeight: 400,
+                    textTransform: 'uppercase',
+                    letterSpacing: '1px',
+                    textDecoration: 'none',
+                    transform: 'scale(1)',
 
-              {/* Footer branding */}
-              <div style={{ marginTop: 'auto', paddingTop: '40px' }}>
-                <img src="/assets/logo.svg" alt="Kawasaki" style={{ height: '32px', opacity: 0.6 }} />
-              </div>
-            </motion.div>
-          </>
+                    // Diagonal Wipe Setup
+                    backgroundImage: 'linear-gradient(to top right, #171717 50%, #FFFFFF 50%)',
+                    backgroundSize: '220% 220%',
+                    backgroundPosition: '100% 0%',
+                    WebkitBackgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    backgroundClip: 'text',
+                    color: 'transparent',
+                    transition: 'background-position 1s cubic-bezier(0.22, 1, 0.36, 1), transform 0.3s ease',
+                  }}
+                  onMouseEnter={(e) => {
+                    e.currentTarget.style.transform = 'scale(1.05)';
+                    e.currentTarget.style.backgroundPosition = '0% 100%';
+                  }}
+                  onMouseLeave={(e) => {
+                    e.currentTarget.style.transform = 'scale(1)';
+                    e.currentTarget.style.backgroundPosition = '100% 0%';
+                  }}
+                >
+                  {item.label}
+                </Link>
+              ))}
+            </nav>
+          </motion.div>
         )}
       </AnimatePresence>
+
+      {/* RENDER THE LOGIN MODAL */}
+      <LoginModal
+        isOpen={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
     </>
   );
 };

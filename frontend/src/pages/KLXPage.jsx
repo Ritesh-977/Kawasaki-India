@@ -6,7 +6,7 @@ import Feature from '../components/Feature';
 import SecondaryHero from '../components/SecondaryHero';
 import SpecsView from '../components/SpecsView';
 import Accessories from '../components/Accessories';
-import Gallery from '../components/Gallery';
+import UpgradedFeatures from '../components/UpgradedFeatures';
 import BookingForm from '../components/BookingForm';
 import Footer from '../components/Footer';
 
@@ -67,8 +67,8 @@ const KLXPage = () => {
       {/* Recommended Accessories */}
       <Accessories />
 
-      {/* Gallery */}
-      <Gallery />
+      {/* Upgraded Features */}
+      <UpgradedFeatures />
 
       {/* Pre-Booking Form */}
       <BookingForm />
