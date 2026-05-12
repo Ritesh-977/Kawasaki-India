@@ -22,7 +22,7 @@ const SecondaryHero = () => {
   return (
     <section
       ref={sectionRef}
-      id="secondary-hero"
+      id="secure-adventure-section"
       style={{
         position: 'relative',
         width: '100%',

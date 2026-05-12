@@ -17,7 +17,7 @@ const Footer = () => {
   };
 
   return (
-    <footer style={{ backgroundColor: '#171717', color: '#FFFFFF', padding: '80px 6vw 40px', fontFamily: '"Arial", sans-serif', position: 'relative' }}>
+    <footer id="footer" style={{ backgroundColor: '#171717', color: '#FFFFFF', padding: '80px 6vw 40px', fontFamily: '"Arial", sans-serif', position: 'relative' }}>
 
       {/* Moved Title Outside the Grid for Perfect Horizontal Alignment */}
       <h3 style={{ fontFamily: '"Impact", "Arial Black", sans-serif', fontSize: '24px', textTransform: 'uppercase', marginBottom: '32px', fontWeight: 400 }}>

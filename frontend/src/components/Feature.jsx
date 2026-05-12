@@ -11,7 +11,8 @@ const Feature = ({
   description = "KLX®110R motorcycles feature electric start for quick, hassle-free ignition. With dual-sport versatility, they're built to conquer trails and streets alike—perfect for riders of all levels.",
   imageLeft = false,
   imageSrc = 'https://via.placeholder.com/600x600',
-  price = null
+  price = null,
+  id
 }) => {
   const [hovered, setHovered] = useState(false);
 
@@ -37,6 +38,7 @@ const Feature = ({
 
   return (
     <section
+      id={id}
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       style={{
