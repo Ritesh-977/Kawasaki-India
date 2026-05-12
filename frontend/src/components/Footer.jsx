@@ -8,19 +8,25 @@ const Footer = () => {
 
   return (
     <footer style={{ backgroundColor: '#171717', color: '#FFFFFF', padding: '80px 6vw 40px', fontFamily: '"Arial", sans-serif', position: 'relative' }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(200px, 1fr))', gap: '40px', marginBottom: '60px' }}>
+
+      {/* Moved Title Outside the Grid for Perfect Horizontal Alignment */}
+      <h3 style={{ fontFamily: '"Impact", "Arial Black", sans-serif', fontSize: '24px', textTransform: 'uppercase', marginBottom: '32px', fontWeight: 400 }}>
+        THE KAWASAKI LINE UP
+      </h3>
+
+      {/* Changed auto-fit to exactly 6 equal columns so it NEVER wraps */}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: '20px', marginBottom: '60px' }}>
 
         {/* Column 1 */}
         <div>
-          <h3 style={{ fontFamily: '"Impact", "Arial Black", sans-serif', fontSize: '24px', textTransform: 'uppercase', marginBottom: '24px', fontWeight: 400 }}>THE KAWASAKI LINE UP</h3>
-          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Street / Track</h4>
+          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px', height: '18px' }}>Street / Track</h4>
           <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>Ninja Series</li>
             <li>NINJA ZX-4R</li>
             <li>NINJA ZX-6R</li>
             <li>NINJA ZX-10R</li>
           </ul>
-          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Dual Purpose</h4>
+          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px', marginTop: '32px', height: '18px' }}>Dual Purpose</h4>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>KLX Series</li>
             <li>KLX230</li>
@@ -28,8 +34,8 @@ const Footer = () => {
         </div>
 
         {/* Column 2 */}
-        <div style={{ paddingTop: '56px' }}>
-          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Street</h4>
+        <div>
+          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px', height: '18px' }}>Street</h4>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>Z Series</li>
             <li>Z H2</li>
@@ -42,7 +48,8 @@ const Footer = () => {
         </div>
 
         {/* Column 3 */}
-        <div style={{ paddingTop: '56px' }}>
+        <div>
+          <div style={{ height: '34px' }} /> {/* Invisible Spacer to align with Col 2 */}
           <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>Ninja Series</li>
             <li>NINJA 300</li>
@@ -59,7 +66,8 @@ const Footer = () => {
         </div>
 
         {/* Column 4 */}
-        <div style={{ paddingTop: '56px' }}>
+        <div>
+          <div style={{ height: '34px' }} /> {/* Invisible Spacer to align with Col 2 */}
           <ul style={{ listStyle: 'none', padding: 0, margin: '0 0 24px 0', display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>Versys Series</li>
             <li>VERSYS 650</li>
@@ -77,8 +85,8 @@ const Footer = () => {
         </div>
 
         {/* Column 5 */}
-        <div style={{ paddingTop: '56px' }}>
-          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px' }}>Off-Road</h4>
+        <div>
+          <h4 style={{ color: 'var(--kawasaki-green, #69BE28)', fontSize: '16px', fontWeight: 700, marginBottom: '16px', height: '18px' }}>Off-Road</h4>
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>KX Series</li>
             <li>KX65</li>
@@ -90,7 +98,8 @@ const Footer = () => {
         </div>
 
         {/* Column 6 */}
-        <div style={{ paddingTop: '95px' }}>
+        <div>
+          <div style={{ height: '34px' }} /> {/* Invisible Spacer to align with Col 5 */}
           <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px', fontSize: '13px', color: '#D4D4D4' }}>
             <li style={{ color: '#FFFFFF', fontWeight: 700 }}>KLX Series</li>
             <li>KLX100RU</li>
@@ -102,7 +111,9 @@ const Footer = () => {
         </div>
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '40px', borderTop: '1px solid #333', paddingTop: '40px', paddingBottom: '40px' }}>
+      {/* Changed auto-fit to fixed fractions (1fr 1fr 2fr) to force a single row */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 2fr', gap: '40px', borderTop: '1px solid #333', paddingTop: '40px', paddingBottom: '40px' }}>
+
         {/* Service & Warranty */}
         <div>
           <h3 style={{ fontFamily: '"Impact", "Arial Black", sans-serif', fontSize: '20px', textTransform: 'uppercase', marginBottom: '24px', fontWeight: 400 }}>SERVICE & WARRANTY</h3>
@@ -130,7 +141,7 @@ const Footer = () => {
         </div>
 
         {/* Stay Connected */}
-        <div style={{ gridColumn: 'span 2' }}>
+        <div>
           <h3 style={{ fontFamily: '"Impact", "Arial Black", sans-serif', fontSize: '20px', textTransform: 'uppercase', marginBottom: '16px', fontWeight: 400 }}>STAY CONNECTED</h3>
           <p style={{ fontSize: '13px', color: '#D4D4D4', marginBottom: '24px', lineHeight: '1.6' }}>Get notified about our latest releases, new model launches,<br />NEWS and events directly from Kawasaki</p>
           <div style={{ display: 'flex', borderBottom: '1px solid #D4D4D4', paddingBottom: '8px', maxWidth: '400px' }}>
@@ -153,7 +164,7 @@ const Footer = () => {
       </div>
 
       {/* Floating Action Buttons */}
-      <div style={{ position: 'fixed', right: '30px', bottom: '40px', display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 100 }}>
+      <div style={{ position: 'absolute', right: '30px', bottom: '40px', display: 'flex', flexDirection: 'column', gap: '12px', zIndex: 100 }}>
         <button onClick={scrollToTop} style={{ width: '48px', height: '48px', borderRadius: '50%', backgroundColor: '#FFF', border: 'none', boxShadow: '0 4px 12px rgba(0,0,0,0.15)', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
           <svg width="16" height="10" viewBox="0 0 16 10" fill="none"><path d="M1 8.5L8 1.5L15 8.5" stroke="#171717" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" /></svg>
         </button>

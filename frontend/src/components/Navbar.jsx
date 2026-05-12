@@ -18,7 +18,7 @@ const Navbar = ({ transparent = true }) => {
 
   const navBg = transparent
     ? scrolled
-      ? '#171717'
+      ? '#FFFFFF'
       : 'linear-gradient(180deg, #171717 0%, rgba(125, 125, 125, 0) 100%)'
     : '#FFFFFF';
 
@@ -56,9 +56,9 @@ const Navbar = ({ transparent = true }) => {
         <div style={{ display: 'flex', alignItems: 'center' }}>
           <Link to="/">
             <img
-              src="/assets/logo.svg"
+              src={transparent && !scrolled ? "/assets/logo.svg" : "/assets/logo-dark.svg"}
               alt="Kawasaki"
-              style={{ height: '40px', filter: !transparent && !scrolled ? 'none' : 'none' }}
+              style={{ height: '40px' }}
             />
           </Link>
         </div>
@@ -70,9 +70,9 @@ const Navbar = ({ transparent = true }) => {
         >
           {/* Hamburger icon – three bars */}
           <svg width="27" height="20" viewBox="0 0 27 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect width="27" height="2" rx="1" fill={transparent || scrolled ? '#FFFFFF' : '#171717'} />
-            <rect y="9" width="27" height="2" rx="1" fill={transparent || scrolled ? '#FFFFFF' : '#171717'} />
-            <rect y="18" width="27" height="2" rx="1" fill={transparent || scrolled ? '#FFFFFF' : '#171717'} />
+            <rect width="27" height="2" rx="1" fill={transparent && !scrolled ? '#FFFFFF' : '#171717'} />
+            <rect y="9" width="27" height="2" rx="1" fill={transparent && !scrolled ? '#FFFFFF' : '#171717'} />
+            <rect y="18" width="27" height="2" rx="1" fill={transparent && !scrolled ? '#FFFFFF' : '#171717'} />
           </svg>
         </div>
       </nav>
