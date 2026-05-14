@@ -9,6 +9,7 @@ import Accessories from '../components/Accessories';
 import UpgradedFeatures from '../components/UpgradedFeatures';
 import BookingForm from '../components/BookingForm';
 import Footer from '../components/Footer';
+import StartSmallSection from '../components/StartSmallSection';
 
 const KLXPage = () => {
   return (
@@ -22,6 +23,9 @@ const KLXPage = () => {
     >
       {/* Hero – Full viewport, KLX110R */}
       <Hero />
+
+      {/* Start Small Section */}
+      <StartSmallSection />
 
       {/* Green gradient divider */}
       <Divider />

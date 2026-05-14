@@ -42,7 +42,7 @@ const Navbar = ({ transparent = true }) => {
           top: 0,
           left: 0,
           width: '100%',
-          height: '80px',
+          height: '60px',
           background: navBg,
           display: 'flex',
           justifyContent: 'space-between',
@@ -101,7 +101,7 @@ const Navbar = ({ transparent = true }) => {
               display: 'flex',
               justifyContent: 'space-between',
               alignItems: 'center',
-              height: '80px',
+              height: '60px',
               padding: '0 100px',
             }}>
               <img src="/assets/logo.svg" alt="Kawasaki" style={{ height: '40px' }} />

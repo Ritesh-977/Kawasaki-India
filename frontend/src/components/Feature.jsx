@@ -46,9 +46,8 @@ const Feature = ({
         flexDirection: imageLeft ? 'row' : 'row-reverse',
         alignItems: 'center',
         width: '100%',
-        maxWidth: '1400px', // Increased slightly to accommodate the wider gaps
+        maxWidth: '1400px',
         margin: '0 auto',
-        // Increased padding to create clear gaps away from the outer edges of the page
         padding: '80px 6vw',
         backgroundColor: '#FFFFFF',
         fontFamily: 'sans-serif',
@@ -65,14 +64,13 @@ const Feature = ({
           src={imageSrc}
           alt={bgTextLine1}
           style={{
-            // Scaled down to 85% to make the image slightly smaller, with auto margins to keep it centered
             width: '85%',
             height: 'auto',
             display: 'block',
             margin: '0 auto',
             objectFit: 'cover',
             position: 'relative',
-            zIndex: 2, // LAYER 2: Image sits above the green background
+            zIndex: 2,
             transform: hovered ? `translateX(${imageShift}px)` : 'translateX(0px)',
             transition: `transform ${dur} ${ease}`,
           }}
@@ -83,10 +81,8 @@ const Feature = ({
           <div style={{
             position: 'absolute',
             bottom: '20%',
-            // Starts on the outer edge (Right side for Electric Start)
             left: imageLeft ? '0px' : 'auto',
             right: imageLeft ? 'auto' : '0px',
-            // Slides inward "in between" on hover
             transform: hovered ? `translateX(${priceShift}px)` : 'translateX(0px)',
             transition: `transform ${dur} ${ease}`,
             backgroundColor: '#2b2b2b',
@@ -121,8 +117,9 @@ const Feature = ({
       {/* ── TEXT SIDE (50%) ── */}
       <div style={{
         flex: '0 0 50%',
-        paddingLeft: imageLeft ? '50px' : '0px',
-        paddingRight: !imageLeft ? '50px' : '0px',
+        // 👇 CHANGED: Massively increased padding to permanently clear left/right UI elements
+        paddingLeft: imageLeft ? '50px' : '350px', // Pushes text far right away from dots
+        paddingRight: imageLeft ? '100px' : '0px', // Pushes text left away from scrollbar
         position: 'relative',
         display: 'flex',
         flexDirection: 'column',
@@ -143,22 +140,22 @@ const Feature = ({
           {/* 1. ANIMATED GREEN BACKGROUND BLOCK */}
           <div style={{
             position: 'absolute',
-            right: imageLeft ? '0px' : 'auto',
-            left: imageLeft ? 'auto' : '0px',
+            right: imageLeft ? '-50vw' : 'auto',
+            left: imageLeft ? 'auto' : '-50vw',
             top: 0,
             bottom: 0,
-            width: hovered ? 'calc(100% + 45px)' : '0px',
+            width: hovered ? 'calc(50vw + 100% + 45px)' : '0px',
             background: headerGradient,
             transition: `width ${dur} ${ease}`,
-            zIndex: 1, // LAYER 1: Background sits behind everything
+            zIndex: 1,
           }} />
 
           {/* 2. SLIDING HEADING TEXT */}
           <h2 style={{
             position: 'relative',
-            zIndex: 3, // LAYER 3: Text sits on top of everything
+            zIndex: 3,
             margin: 0,
-            paddingLeft: imageLeft ? '30px' : '0px',
+            paddingLeft: imageLeft ? '30px' : '20px',
             paddingRight: imageLeft ? '20px' : '70px',
             fontFamily: '"Impact", "Arial Black", sans-serif',
             fontSize: 'clamp(50px, 6vw, 90px)',
@@ -182,7 +179,7 @@ const Feature = ({
         <div style={{
           position: 'relative',
           zIndex: 3,
-          paddingLeft: imageLeft ? '30px' : '0px',
+          paddingLeft: imageLeft ? '30px' : '20px',
           paddingRight: imageLeft ? '20px' : '70px',
         }}>
           {/* TAGLINE */}
