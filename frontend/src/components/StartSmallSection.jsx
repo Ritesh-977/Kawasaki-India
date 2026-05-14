@@ -4,14 +4,31 @@ import { motion } from 'framer-motion';
 const StartSmallSection = () => {
   const [hovered, setHovered] = useState(false);
 
-  // Slower, smoother animation timing (1.6 seconds)
-  const animDuration = 1.6;
-  const easeCurve = [0.22, 1, 0.36, 1];
+  // 👇 UPDATED: The "Goldilocks" duration (1.8s) and a smoother, mechanical ease-in-out curve
+  const animDuration = 1.8;
+  const easeCurve = [0.4, 0.0, 0.2, 1];
 
   const transitionSettings = {
     duration: animDuration,
     ease: easeCurve
   };
+
+  // Keyframe transition settings specifically for the crossing doors
+  const doorTransition = {
+    duration: animDuration,
+    times: [0, 0.12, 1],
+    ease: easeCurve
+  };
+
+  // LEFT DOOR POLYGONS
+  const closedPolygonLeft = 'polygon(0% 0%, 80% 0%, 70% 50%, 80% 100%, 0% 100%)';
+  const overlapPolygonLeft = 'polygon(0% 0%, 84% 0%, 74% 50%, 84% 100%, 0% 100%)';
+  const openPolygonLeft = 'polygon(-100% 0%, -20% 0%, -30% 50%, -20% 100%, -100% 100%)';
+
+  // RIGHT DOOR POLYGONS
+  const closedPolygonRight = 'polygon(80% 0%, 100% 0%, 100% 100%, 80% 100%, 70% 50%)';
+  const overlapPolygonRight = 'polygon(76% 0%, 100% 0%, 100% 100%, 76% 100%, 66% 50%)';
+  const openPolygonRight = 'polygon(120% 0%, 140% 0%, 140% 100%, 120% 100%, 110% 50%)';
 
   return (
     <section
@@ -160,41 +177,43 @@ const StartSmallSection = () => {
         </div>
       </div>
 
-      {/* --- SPLIT GREEN OVERLAYS (Elevator Door Sliding) --- */}
+      {/* --- SPLIT GREEN OVERLAYS (Cross-Grow Sliding) --- */}
 
       {/* 1. LEFT DOOR */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(105, 190, 40, 0.85)',
-        // Shifted further right: covers the left 80% with the chevron point at 70%
-        clipPath: 'polygon(0% 0%, 80% 0%, 70% 50%, 80% 100%, 0% 100%)',
-        // Slide left by exactly 80% to perfectly clear the screen edge
-        transform: hovered ? 'translateX(-80%)' : 'translateX(0%)',
-        transition: `transform ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1)`,
-        zIndex: 3,
-        pointerEvents: 'none',
-      }} />
+      <motion.div
+        animate={{
+          clipPath: hovered ? [closedPolygonLeft, overlapPolygonLeft, openPolygonLeft] : [openPolygonLeft, overlapPolygonLeft, closedPolygonLeft]
+        }}
+        transition={doorTransition}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(105, 190, 40, 0.85)',
+          zIndex: 3,
+          pointerEvents: 'none',
+        }}
+      />
 
       {/* 2. RIGHT DOOR */}
-      <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        backgroundColor: 'rgba(105, 190, 40, 0.85)',
-        // Shifted further right: perfectly interlocks with the left door
-        clipPath: 'polygon(80% 0%, 100% 0%, 100% 100%, 80% 100%, 70% 50%)',
-        // Slide right by 30% (since the deepest part is at 70%, 70 + 30 = 100) to clear it
-        transform: hovered ? 'translateX(30%)' : 'translateX(0%)',
-        transition: `transform ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1)`,
-        zIndex: 3,
-        pointerEvents: 'none',
-      }} />
+      <motion.div
+        animate={{
+          clipPath: hovered ? [closedPolygonRight, overlapPolygonRight, openPolygonRight] : [openPolygonRight, overlapPolygonRight, closedPolygonRight]
+        }}
+        transition={doorTransition}
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          width: '100%',
+          height: '100%',
+          backgroundColor: 'rgba(105, 190, 40, 0.85)',
+          zIndex: 3,
+          pointerEvents: 'none',
+        }}
+      />
 
     </section>
   );
