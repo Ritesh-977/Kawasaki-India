@@ -16,7 +16,7 @@ const ACCESSORIES = [
     description: 'Softshell body warmer with zipped outer pockets. Outer pockets are zipped.',
     price: '₹8,520.00',
     badge: 'New',
-    imgPlaceholder: '#FFFFFF',
+    image: '/assets/Body-warmer.png',
   },
   {
     id: 2,
@@ -24,7 +24,7 @@ const ACCESSORIES = [
     description: 'Knitted beanie with racing logo\'s in Kawasaki 2024 Wsbk team-colours.',
     price: '₹1,510.00',
     badge: 'New',
-    imgPlaceholder: '#FFFFFF',
+    image: '/assets/Beanie-adult.png',
   },
   {
     id: 3,
@@ -32,7 +32,7 @@ const ACCESSORIES = [
     description: 'Six panel peak cap in Kawasaki 2024 Wsbk team-colours with green mesh back.',
     price: '₹1,680.00',
     badge: 'New',
-    imgPlaceholder: '#FFFFFF',
+    image: '/assets/cap-adult.png',
   },
   {
     id: 4,
@@ -40,15 +40,15 @@ const ACCESSORIES = [
     description: 'Kawasaki 2024 Wsbk team-colored short sleeved polo-shirt with 3-button placket.',
     price: '₹5,830.00',
     badge: 'New',
-    imgPlaceholder: '#FFFFFF',
+    image: '/assets/polo-male.png',
   },
   {
     id: 5,
-    name: 'KLX 110R Track Helmet',
-    description: 'Lightweight off-road helmet with advanced ventilation and Kawasaki graphics.',
-    price: '₹9,200.00',
+    name: 'WSBK 2024 Bodywarmer Male',
+    description: 'Softshell body warmer with zipped outer pockets. Outer pockets are zipped.',
+    price: '₹8,520.00',
     badge: 'New',
-    imgPlaceholder: '#FFFFFF',
+    image: '/assets/Body-warmer.png',
   },
 ];
 
@@ -168,16 +168,29 @@ const Accessories = () => {
                 </span>
               </div>
 
-              {/* Placeholder image (White to blend with card like the mockup) */}
+              {/* The Actual Product Image */}
               <div style={{
                 width: '100%',
                 height: '100%',
-                backgroundColor: item.imgPlaceholder,
+                backgroundColor: '#FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
+                padding: '24px', // Keeps the image from touching the edges of the card
               }}>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: '#D4D4D4' }}>Image Area</span>
+                {item.image ? (
+                  <img
+                    src={item.image}
+                    alt={item.name}
+                    style={{
+                      maxWidth: '100%',
+                      maxHeight: '100%',
+                      objectFit: 'contain' // Ensures the image scales correctly without warping
+                    }}
+                  />
+                ) : (
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '12px', color: '#D4D4D4' }}>Image Area</span>
+                )}
               </div>
             </div>
 

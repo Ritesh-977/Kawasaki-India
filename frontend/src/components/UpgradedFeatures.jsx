@@ -14,25 +14,25 @@ const UPGRADED_FEATURES = [
     id: 1,
     title: 'TFT Colour Instrumentation',
     description: 'New digital TFT display adds a premium, high-tech touch with extra features for an enhanced ride.',
-    imgPlaceholder: '#E5E5E5',
+    image: '/assets/color-instrumentation.png',
   },
   {
     id: 2,
     title: 'New Tyres, Lighter Handling',
     description: 'Dunlop Sportmax Roadsport 2 tyres improve grip and deliver noticeably lighter, more responsive handling.',
-    imgPlaceholder: '#D4D4D4',
+    image: '/assets/new-tyres.png',
   },
   {
     id: 3,
     title: 'Improved Windshield',
     description: 'Sleek new windshield design boosts sporty style while offering better wind protection at higher speeds.',
-    imgPlaceholder: '#E5E5E5',
+    image: '/assets/wind-shield.png',
   },
   {
     id: 4,
     title: 'LED Lighting',
     description: 'Bright white LED headlights cast a wide beam for excellent visibility and striking looks.',
-    imgPlaceholder: '#D4D4D4',
+    image: '/assets/color-instrumentation.png', // Using fallback image
   },
 ];
 
@@ -54,7 +54,7 @@ const UpgradedFeatures = () => {
   // Scroll handler for the next arrow button
   const scrollRight = () => {
     if (scrollContainerRef.current) {
-      scrollContainerRef.current.scrollBy({ left: 380, behavior: 'smooth' });
+      scrollContainerRef.current.scrollBy({ left: 330, behavior: 'smooth' });
     }
   };
 
@@ -63,11 +63,11 @@ const UpgradedFeatures = () => {
       ref={sectionRef}
       id="upgraded-features-section"
       style={{
-        backgroundColor: '#FAFAFA', // Light grey background matching screenshot
+        backgroundColor: '#FAFAFA',
         padding: '100px 0 120px 0',
         width: '100%',
         position: 'relative',
-        overflow: 'hidden', // Prevents horizontal scroll on the whole page
+        overflow: 'hidden',
       }}
     >
       {/* Invisible style block to hide the horizontal scrollbar for a clean UI */}
@@ -112,8 +112,8 @@ const UpgradedFeatures = () => {
           className="hide-scroll"
           style={{
             display: 'flex',
-            gap: '32px',
-            padding: '0 100px', // Adds padding to the start and end of the scroll list
+            gap: '40px',
+            padding: '0 100px',
             overflowX: 'auto',
             scrollBehavior: 'smooth',
           }}
@@ -124,8 +124,8 @@ const UpgradedFeatures = () => {
               style={{
                 display: 'flex',
                 flexDirection: 'column',
-                minWidth: '340px', // Card width
-                width: '340px',
+                minWidth: '290px',
+                width: '290px',
                 flexShrink: 0,
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(24px)',
@@ -135,32 +135,45 @@ const UpgradedFeatures = () => {
               {/* Image Area */}
               <div style={{
                 width: '100%',
-                height: '240px',
-                backgroundColor: feature.imgPlaceholder,
+                height: '200px',
+                backgroundColor: '#FFFFFF', // 👇 CHANGED: Forced pure white background
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                marginBottom: '24px',
+                marginBottom: '20px',
+                overflow: 'hidden',
               }}>
-                <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: '#888' }}>
-                  {feature.title} Image
-                </span>
+                {feature.image ? (
+                  <img
+                    src={feature.image}
+                    alt={feature.title}
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                ) : (
+                  <span style={{ fontFamily: 'var(--font-body)', fontSize: '14px', color: '#888' }}>
+                    {feature.title} Image
+                  </span>
+                )}
               </div>
 
               {/* Text Area with Green Fading Line */}
               <div style={{ display: 'flex', gap: '16px' }}>
                 {/* Green Fading Accent Line */}
                 <div style={{
-                  width: '6px',
+                  width: '5px',
                   background: 'linear-gradient(to bottom, var(--kawasaki-green) 0%, var(--kawasaki-green) 60%, transparent 100%)',
                   flexShrink: 0,
                 }} />
 
                 {/* Content */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
                   <h3 style={{
                     fontFamily: '"Impact", "Arial Black", sans-serif',
-                    fontSize: '24px',
+                    fontSize: '20px',
                     fontWeight: 400,
                     color: '#171717',
                     lineHeight: '1.2',
@@ -171,9 +184,9 @@ const UpgradedFeatures = () => {
                   </h3>
                   <p style={{
                     fontFamily: '"Arial", sans-serif',
-                    fontSize: '16px',
+                    fontSize: '14px',
                     color: '#333333',
-                    lineHeight: '1.6',
+                    lineHeight: '1.5',
                     margin: 0,
                   }}>
                     {feature.description}
@@ -188,7 +201,7 @@ const UpgradedFeatures = () => {
         <div style={{
           position: 'absolute',
           right: '50px',
-          top: '35%', // Centered vertically relative to the images
+          top: '35%',
           transform: 'translateY(-50%)',
           zIndex: 10,
         }}>
