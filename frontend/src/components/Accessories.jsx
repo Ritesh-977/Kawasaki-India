@@ -55,6 +55,7 @@ const ACCESSORIES = [
 const Accessories = () => {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [hoveredId, setHoveredId] = useState(null);
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -129,6 +130,8 @@ const Accessories = () => {
             key={item.id}
             id={`accessory-card-${item.id}`}
             className="product-card"
+            onMouseEnter={() => setHoveredId(item.id)}
+            onMouseLeave={() => setHoveredId(null)}
             style={{
               width: '286px',
               minWidth: '286px', // CRUCIAL: prevents cards from squishing so they force horizontal scroll
@@ -144,7 +147,7 @@ const Accessories = () => {
             }}
           >
             {/* Product Image Area */}
-            <div style={{ width: '100%', height: '220px', position: 'relative', flexShrink: 0 }}>
+            <div style={{ width: '100%', height: '220px', position: 'relative', flexShrink: 0, overflow: 'hidden' }}>
               {/* Badge */}
               <div style={{
                 position: 'absolute',
@@ -185,7 +188,9 @@ const Accessories = () => {
                     style={{
                       maxWidth: '100%',
                       maxHeight: '100%',
-                      objectFit: 'contain' // Ensures the image scales correctly without warping
+                      objectFit: 'contain', // Ensures the image scales correctly without warping
+                      transform: hoveredId === item.id ? 'scale(1.13)' : 'scale(1)',
+                      transition: 'transform 0.7s ease',
                     }}
                   />
                 ) : (
