@@ -40,6 +40,7 @@ const UpgradedFeatures = () => {
   const sectionRef = useRef(null);
   const scrollContainerRef = useRef(null);
   const [visible, setVisible] = useState(false);
+  const [hoveredId, setHoveredId] = useState(null);
 
   // Intersection Observer for fade-in animation
   useEffect(() => {
@@ -121,12 +122,15 @@ const UpgradedFeatures = () => {
           {UPGRADED_FEATURES.map((feature, idx) => (
             <div
               key={feature.id}
+              onMouseEnter={() => setHoveredId(feature.id)}
+              onMouseLeave={() => setHoveredId(null)}
               style={{
                 display: 'flex',
                 flexDirection: 'column',
                 minWidth: '290px',
                 width: '290px',
                 flexShrink: 0,
+                cursor: 'pointer',
                 opacity: visible ? 1 : 0,
                 transform: visible ? 'translateY(0)' : 'translateY(24px)',
                 transition: `opacity 0.5s ease ${idx * 0.1}s, transform 0.5s ease ${idx * 0.1}s`,
@@ -136,7 +140,7 @@ const UpgradedFeatures = () => {
               <div style={{
                 width: '100%',
                 height: '200px',
-                backgroundColor: '#FFFFFF', // 👇 CHANGED: Forced pure white background
+                backgroundColor: '#FFFFFF',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
@@ -150,7 +154,9 @@ const UpgradedFeatures = () => {
                     style={{
                       width: '100%',
                       height: '100%',
-                      objectFit: 'cover'
+                      objectFit: 'cover',
+                      transform: hoveredId === feature.id ? 'scale(1.13)' : 'scale(1)',
+                      transition: 'transform 0.7s ease',
                     }}
                   />
                 ) : (
@@ -162,15 +168,23 @@ const UpgradedFeatures = () => {
 
               {/* Text Area with Green Fading Line */}
               <div style={{ display: 'flex', gap: '16px' }}>
-                {/* Green Fading Accent Line */}
+                {/* Green Fading Accent Line — visible only on hover */}
                 <div style={{
-                  width: '5px',
-                  background: 'linear-gradient(to bottom, var(--kawasaki-green) 0%, var(--kawasaki-green) 60%, transparent 100%)',
+                  width: '9px',
                   flexShrink: 0,
+                  background: 'linear-gradient(to right, var(--kawasaki-green) 0%, var(--kawasaki-green) 40%, transparent 100%)',
+                  opacity: hoveredId === feature.id ? 1 : 0,
+                  transition: 'opacity 0.4s ease',
                 }} />
 
-                {/* Content */}
-                <div style={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+                {/* Content — slides right on hover */}
+                <div style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px',
+                  transform: hoveredId === feature.id ? 'translateX(8px)' : 'translateX(-16px)',
+                  transition: 'transform 0.7s ease',
+                }}>
                   <h3 style={{
                     fontFamily: '"Impact", "Arial Black", sans-serif',
                     fontSize: '20px',
