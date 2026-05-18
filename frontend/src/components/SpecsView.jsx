@@ -13,22 +13,57 @@ const specsRight = [
   { label: 'WEIGHT', value: '76 kg (R) / 89 kg (R L)' },
 ];
 
-// The available color variants
+// Two color variants — each with their own angle images
 const colorVariants = [
-  { id: 'green', hex: '#69BE28', thumb: '/assets/thumb-green.png' },
-  { id: 'black', hex: '#171717', thumb: '/assets/thumb-black.png' },
-  { id: 'red', hex: '#E53935', thumb: '/assets/thumb-red.png' },
+  {
+    id: 'green',
+    label: 'Kawasaki Green',
+    hex: '#69BE28',
+    leftColor: '#171717',
+    rightColor: '#69BE28',
+    activeBorderColor: '#171717',
+    angles: [
+      { id: 'angle1', src: '/assets/angle1.jpg', label: 'View 1' },
+      { id: 'angle2', src: '/assets/angle2.jpg', label: 'View 2' },
+      { id: 'angle3', src: '/assets/angle3.jpg', label: 'View 3' },
+    ],
+  },
+  {
+    id: 'black',
+    label: 'Ebony Black',
+    hex: '#171717',
+    leftColor: '#171717',
+    rightColor: '#808080',
+    activeBorderColor: '#171717',
+    angles: [
+      { id: 'angle4', src: '/assets/angle4.jpg', label: 'View 1' },
+      { id: 'angle5', src: '/assets/angle5.jpg', label: 'View 2' },
+      { id: 'angle6', src: '/assets/angle6.jpg', label: 'View 3' },
+    ],
+  },
 ];
 
 const SpecsView = () => {
   const sectionRef = useRef(null);
   const [visible, setVisible] = useState(false);
 
-  // 360 Viewer State
+  // Color + Angle Viewer State
   const [activeColor, setActiveColor] = useState('green');
-  const [frame, setFrame] = useState(1);
+  const [activeAngleId, setActiveAngleId] = useState('angle1');
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
+
+  // Derived: current color variant and its angles
+  const currentVariant = colorVariants.find((c) => c.id === activeColor);
+  const currentAngles = currentVariant?.angles ?? [];
+  const currentImage = currentAngles.find((a) => a.id === activeAngleId)?.src;
+
+  // When color changes, snap to first angle of that color
+  const handleColorChange = (colorId) => {
+    const variant = colorVariants.find((c) => c.id === colorId);
+    setActiveColor(colorId);
+    setActiveAngleId(variant.angles[0].id);
+  };
 
   // Fade-in animation observer
   useEffect(() => {
@@ -40,7 +75,7 @@ const SpecsView = () => {
     return () => observer.disconnect();
   }, []);
 
-  // --- 360 DRAG LOGIC ---
+  // --- DRAG LOGIC (cycles through active color's angles) ---
   const handleDragStart = (e) => {
     setIsDragging(true);
     setStartX(e.type === 'touchstart' ? e.touches[0].clientX : e.clientX);
@@ -48,28 +83,21 @@ const SpecsView = () => {
 
   const handleDragMove = useCallback((e) => {
     if (!isDragging) return;
-
-    // Prevent scrolling while rotating the bike on mobile
     if (e.type === 'touchmove') e.preventDefault();
-
     const currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
     const diff = currentX - startX;
-
-    // Sensitivity: Change frame every 10 pixels dragged
-    if (Math.abs(diff) > 10) {
-      setFrame((prevFrame) => {
-        let newFrame = diff > 0 ? prevFrame - 1 : prevFrame + 1; // Drag right = rotate left
-        if (newFrame > 36) newFrame = 1;
-        if (newFrame < 1) newFrame = 36;
-        return newFrame;
+    if (Math.abs(diff) > 60) {
+      const direction = diff > 0 ? -1 : 1;
+      setActiveAngleId((prev) => {
+        const idx = currentAngles.findIndex((a) => a.id === prev);
+        const next = (idx + direction + currentAngles.length) % currentAngles.length;
+        return currentAngles[next].id;
       });
-      setStartX(currentX); // Reset start point for continuous dragging
+      setStartX(currentX);
     }
-  }, [isDragging, startX]);
+  }, [isDragging, startX, currentAngles]);
 
-  const handleDragEnd = () => {
-    setIsDragging(false);
-  };
+  const handleDragEnd = () => setIsDragging(false);
 
   // Shared Styles
   const labelStyle = {
@@ -116,7 +144,6 @@ const SpecsView = () => {
         fontSize: 'clamp(200px, 25vw, 400px)',
         fontWeight: 400,
         lineHeight: '1',
-        // Light green fading into the background
         background: 'linear-gradient(180deg, rgba(105, 190, 40, 0.15) 0%, rgba(105, 190, 40, 0) 80%)',
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text',
@@ -161,10 +188,10 @@ const SpecsView = () => {
           ))}
         </div>
 
-        {/* CENTER COLUMN: 360 Rotatable Bike Viewer & Thumbnails */}
+        {/* CENTER COLUMN: Bike Viewer & Angle Thumbnails */}
         <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
 
-          {/* Draggable 360 Area */}
+          {/* Draggable Area */}
           <div
             style={{
               width: '100%',
@@ -184,21 +211,21 @@ const SpecsView = () => {
             onTouchMove={handleDragMove}
             onTouchEnd={handleDragEnd}
           >
-            {/* The Image that updates its source based on color and frame */}
             <img
-              src={`/assets/bike-${activeColor}-${frame}.png`}
+              src={currentImage}
               alt={`Kawasaki KLX110R ${activeColor}`}
               style={{
                 width: '100%',
                 height: '100%',
                 objectFit: 'contain',
-                pointerEvents: 'none', // Prevents the browser's default image drag ghost
+                pointerEvents: 'none',
                 userSelect: 'none',
+                transition: 'opacity 0.3s ease',
               }}
               draggable="false"
             />
 
-            {/* Instruction helper text */}
+            {/* Drag hint */}
             <div style={{
               position: 'absolute',
               bottom: '20px',
@@ -216,49 +243,52 @@ const SpecsView = () => {
             </div>
           </div>
 
-          {/* Color Switcher Thumbnails */}
+          {/* Angle Thumbnails — dynamically switch with color */}
           <div style={{
             display: 'flex',
             gap: '16px',
             marginTop: '40px',
             zIndex: 10,
           }}>
-            {colorVariants.map((variant) => (
+            {currentAngles.map((angle) => (
               <div
-                key={variant.id}
-                onClick={() => setActiveColor(variant.id)}
+                key={angle.id}
+                onClick={() => setActiveAngleId(angle.id)}
+                title={angle.label}
                 style={{
-                  width: '60px',
-                  height: '40px',
+                  width: '80px',
+                  height: '55px',
                   backgroundColor: '#FFFFFF',
-                  borderRadius: '2px',
-                  border: activeColor === variant.id ? '2px solid #171717' : '1px solid #D4D4D4',
-                  boxShadow: activeColor === variant.id ? '0px 4px 10px rgba(0,0,0,0.1)' : 'none',
+                  borderRadius: '4px',
+                  border: activeAngleId === angle.id ? `2px solid ${currentVariant.hex}` : '1px solid #D4D4D4',
+                  boxShadow: activeAngleId === angle.id
+                    ? `0px 4px 14px ${activeColor === 'green' ? 'rgba(105,190,40,0.25)' : 'rgba(0,0,0,0.2)'}`
+                    : 'none',
                   cursor: 'pointer',
                   display: 'flex',
                   alignItems: 'center',
                   justifyContent: 'center',
-                  transition: 'all 0.2s ease',
+                  transition: 'all 0.25s ease',
                   overflow: 'hidden',
-                  padding: '2px'
+                  padding: '4px',
                 }}
               >
                 <img
-                  src={variant.thumb}
-                  alt={`${variant.id} variant`}
-                  style={{ width: '100%', height: '100%', objectFit: 'contain' }}
+                  src={angle.src}
+                  alt={angle.label}
+                  style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '2px' }}
                 />
               </div>
             ))}
           </div>
         </div>
 
-        {/* RIGHT COLUMN: Specs & Color Availability */}
+        {/* RIGHT COLUMN: Specs & Color Swatches */}
         <div style={{
           display: 'flex',
           flexDirection: 'column',
           gap: '32px',
-          textAlign: 'right', // Right aligns the text
+          textAlign: 'right',
           opacity: visible ? 1 : 0,
           transform: visible ? 'translateX(0)' : 'translateX(20px)',
           transition: 'opacity 0.6s ease, transform 0.6s ease',
@@ -267,22 +297,34 @@ const SpecsView = () => {
           {/* Colors Available Block */}
           <div>
             <span style={labelStyle}>COLORS AVAILABLE</span>
-            <div style={{ display: 'flex', gap: '8px', justifyContent: 'flex-end', marginTop: '8px' }}>
-              {colorVariants.map((variant) => (
-                <div
-                  key={variant.id}
-                  onClick={() => setActiveColor(variant.id)}
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    backgroundColor: variant.hex,
-                    border: '2px solid #FFFFFF',
-                    boxShadow: '0 0 0 1px #D4D4D4', // Creates the double border effect seen in screenshot
-                    cursor: 'pointer',
-                    borderRadius: '2px'
-                  }}
-                />
-              ))}
+            <div style={{ display: 'flex', gap: '10px', justifyContent: 'flex-end', marginTop: '10px' }}>
+              {colorVariants.map((variant) => {
+                const isActive = activeColor === variant.id;
+                return (
+                  <div
+                    key={variant.id}
+                    onClick={() => handleColorChange(variant.id)}
+                    title={variant.label}
+                    style={{
+                      width: '34px',
+                      height: '28px',
+                      borderRadius: '4px',
+                      border: isActive ? `2px solid ${variant.activeBorderColor}` : '1px solid #D4D4D4',
+                      boxShadow: 'none',
+                      cursor: 'pointer',
+                      overflow: 'hidden',
+                      display: 'flex',
+                      transition: 'all 0.2s ease',
+                      flexShrink: 0,
+                    }}
+                  >
+                    {/* Left half */}
+                    <div style={{ flex: 1, backgroundColor: variant.leftColor }} />
+                    {/* Right half */}
+                    <div style={{ flex: 1, backgroundColor: variant.rightColor }} />
+                  </div>
+                );
+              })}
             </div>
           </div>
 
