@@ -23,9 +23,9 @@ const colorVariants = [
     rightColor: '#69BE28',
     activeBorderColor: '#171717',
     angles: [
-      { id: 'angle1', src: '/assets/angle1.jpg', label: 'View 1' },
-      { id: 'angle2', src: '/assets/angle2.jpg', label: 'View 2' },
-      { id: 'angle3', src: '/assets/angle3.jpg', label: 'View 3' },
+      { id: 'angle1', src: '/assets/angle1.png', label: 'View 1' },
+      { id: 'angle2', src: '/assets/angle2.png', label: 'View 2' },
+      { id: 'angle3', src: '/assets/angle3.png', label: 'View 3' },
     ],
   },
   {
@@ -36,9 +36,9 @@ const colorVariants = [
     rightColor: '#808080',
     activeBorderColor: '#171717',
     angles: [
-      { id: 'angle4', src: '/assets/angle4.jpg', label: 'View 1' },
-      { id: 'angle5', src: '/assets/angle5.jpg', label: 'View 2' },
-      { id: 'angle6', src: '/assets/angle6.jpg', label: 'View 3' },
+      { id: 'angle4', src: '/assets/angle4.png', label: 'View 1' },
+      { id: 'angle5', src: '/assets/angle5.png', label: 'View 2' },
+      { id: 'angle6', src: '/assets/angle6.png', label: 'View 3' },
     ],
   },
 ];
@@ -137,14 +137,14 @@ const SpecsView = () => {
       {/* Massive Watermark Text */}
       <div style={{
         position: 'absolute',
-        top: '50%',
+        top: '5%',
         left: '50%',
-        transform: 'translate(-50%, -60%)',
+        transform: 'translate(-50%, 0)',
         fontFamily: '"Impact", "Arial Black", sans-serif',
         fontSize: 'clamp(200px, 25vw, 400px)',
         fontWeight: 400,
         lineHeight: '1',
-        background: 'linear-gradient(180deg, rgba(105, 190, 40, 0.15) 0%, rgba(105, 190, 40, 0) 80%)',
+        background: 'linear-gradient(180deg, rgba(125, 181, 81, 0.5) 0%, rgba(255, 255, 255, 0.30) 100%)',
         WebkitBackgroundClip: 'text',
         backgroundClip: 'text',
         WebkitTextFillColor: 'transparent',
